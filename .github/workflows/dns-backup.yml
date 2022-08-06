@@ -1,5 +1,7 @@
 name: DNS Backup
-on: [push]
+on: 
+  schedule:
+    - cron: "0 17 7 * *"
 jobs:
   dns-backup:
     runs-on: ubuntu-latest
