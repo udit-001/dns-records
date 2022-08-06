@@ -1,0 +1,22 @@
+name: DNS Backup
+on:
+  schedule:
+    - cron: "0 17 7 * *"
+jobs:
+  dns-backup:
+    runs-on: ubuntu-latest
+    env:
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+    steps:
+      - name: Pull flares image
+        run: docker pull lfaoro/flares
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%m-%Y')"
+      - name: Fetch DNS Records
+        run: docker run -e CF_API_TOKEN="$CF_API_TOKEN" lfaoro/flares idiomaticprogrammers.com > idiomaticprogrammers.txt
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: idiomaticprogrammers.txt
+          tag_name: ${{ steps.date.outputs.date }}
