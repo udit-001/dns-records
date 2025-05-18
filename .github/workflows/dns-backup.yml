@@ -16,7 +16,7 @@ jobs:
       - name: Fetch DNS Records
         run: docker run -e CF_API_TOKEN="$CF_API_TOKEN" lfaoro/flares uditmittal.com > uditmittal.txt
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: uditmittal.txt
           tag_name: ${{ steps.date.outputs.date }}
