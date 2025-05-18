@@ -5,18 +5,22 @@ on:
 jobs:
   dns-backup:
     runs-on: ubuntu-latest
-    env:
-      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
     steps:
-      - name: Pull flares image
-        run: docker pull lfaoro/flares
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%b-%Y')"
+        run: echo "date=$(date +'%b-%Y')" >> $GITHUB_OUTPUT
+      
+      - name: Make script executable
+        run: chmod +x scripts/dns-backup.sh
+      
       - name: Fetch DNS Records
-        run: docker run -e CF_API_TOKEN="$CF_API_TOKEN" lfaoro/flares uditmittal.com > uditmittal.txt
+        run: ./scripts/dns-backup.sh uditmittal.com
+      
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: uditmittal.txt
+          files: dns-records-uditmittal.com.txt
           tag_name: ${{ steps.date.outputs.date }}
