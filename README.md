@@ -23,4 +23,4 @@ Backup DNS records (A, AAAA, MX, TXT, NS, CNAME) for any domain.
 - GitHub Actions enabled 
 
 ## Workflow Status
-- 🔄 Last Run: 2026-03-07 17:20 UTC
+- 🔄 Last Run: 2026-04-07 17:57 UTC
